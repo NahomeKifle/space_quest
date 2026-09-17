@@ -2,6 +2,7 @@ export const destinations = [
   {
     id: 'projects',
     label: 'Projects',
+    route: '/projects',
     position: [-2.55, -0.05, -2.8],
     geometryType: 'ringed',
     labelOffset: [0, -1.15, 0],
@@ -10,6 +11,7 @@ export const destinations = [
   {
     id: 'experience',
     label: 'Experience',
+    route: '/experience',
     position: [2.95, 1.55, -5.2],
     geometryType: 'station',
     description: 'Roles, teams, and the work behind them.',
@@ -17,6 +19,7 @@ export const destinations = [
   {
     id: 'resume',
     label: 'Resume',
+    route: '/resume',
     position: [1.4, 2.05, -7.35],
     geometryType: 'orb',
     description: 'A concise record of skills and history.',
@@ -24,6 +27,7 @@ export const destinations = [
   {
     id: 'about',
     label: 'About',
+    route: '/about',
     position: [-2.7, 1.4, -6.05],
     geometryType: 'crystal',
     description: 'Who I am and how I like to work.',
@@ -31,6 +35,7 @@ export const destinations = [
   {
     id: 'contact',
     label: 'Contact',
+    route: '/contact',
     position: [2.35, -0.12, -1.85],
     geometryType: 'ring',
     description: 'Ways to reach me.',

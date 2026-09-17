@@ -12,3 +12,5 @@ export const CAMERA_HEIGHT = 3.45
 export const CAMERA_LOOK_AHEAD = 5.15
 export const CAMERA_LERP_SPEED = 2.6
 export const CAMERA_DESTINATION_BLEND = 0.16
+export const ENTER_CAMERA_PULL = 0.82
+export const ENTER_TRANSITION_MS = 800

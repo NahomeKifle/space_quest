@@ -60,6 +60,27 @@
   border-color: #6a6a6a;
 }
 
+.travel:disabled {
+  cursor: default;
+  opacity: 0.45;
+}
+
+.fade {
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  background: #000;
+  opacity: 0;
+  pointer-events: none;
+  transition-property: opacity;
+  transition-timing-function: ease;
+}
+
+.fadeActive {
+  opacity: 1;
+  pointer-events: auto;
+}
+
 @media (max-width: 640px) {
   .panel {
     right: 1rem;

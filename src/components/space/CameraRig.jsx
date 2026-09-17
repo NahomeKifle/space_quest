@@ -7,6 +7,7 @@ import {
   CAMERA_HEIGHT,
   CAMERA_LERP_SPEED,
   CAMERA_LOOK_AHEAD,
+  ENTER_CAMERA_PULL,
 } from './travelConfig'
 
 const back = new Vector3()
@@ -23,10 +24,16 @@ function CameraRig({ shipRef, targetRef, phaseRef }) {
     const ship = shipRef.current
     if (!ship) return
 
+    const phase = phaseRef.current
+    const followDistance =
+      phase === 'entering'
+        ? CAMERA_FOLLOW_DISTANCE * ENTER_CAMERA_PULL
+        : CAMERA_FOLLOW_DISTANCE
+
     back.set(0, 0, 1).applyQuaternion(ship.quaternion)
     desired
       .copy(ship.position)
-      .addScaledVector(back, CAMERA_FOLLOW_DISTANCE)
+      .addScaledVector(back, followDistance)
       .addScaledVector(up, CAMERA_HEIGHT)
 
     if (!snapped.current) {
@@ -40,11 +47,13 @@ function CameraRig({ shipRef, targetRef, phaseRef }) {
     ahead.set(0, 0, -1).applyQuaternion(ship.quaternion)
     look.copy(ship.position).addScaledVector(ahead, CAMERA_LOOK_AHEAD)
 
-    const phase = phaseRef.current
     const target = targetRef.current
     if (
       target &&
-      (phase === 'rotating' || phase === 'traveling' || phase === 'arrived')
+      (phase === 'rotating' ||
+        phase === 'traveling' ||
+        phase === 'arrived' ||
+        phase === 'entering')
     ) {
       look.lerp(target.position, CAMERA_DESTINATION_BLEND)
     }

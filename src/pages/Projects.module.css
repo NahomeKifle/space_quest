@@ -1,0 +1,24 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.card {
+  padding: 1.25rem;
+  border: 1px solid var(--border);
+  background: var(--bg-elevated);
+}
+
+.card p {
+  margin: 0;
+}

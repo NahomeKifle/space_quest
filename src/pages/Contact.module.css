@@ -1,0 +1,19 @@
+.page {
+  display: flex;
+  flex-direction: column;
+}
+
+.list {
+  margin: 0.5rem 0 0;
+  padding: 0;
+  list-style: none;
+  color: var(--text-muted);
+}
+
+.list li + li {
+  margin-top: 0.4rem;
+}
+
+.link {
+  color: var(--accent);
+}

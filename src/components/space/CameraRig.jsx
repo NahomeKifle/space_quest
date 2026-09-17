@@ -1,12 +1,15 @@
-import { useRef } from 'react'
+import { useLayoutEffect, useRef } from 'react'
 import { useFrame, useThree } from '@react-three/fiber'
 import { Vector3 } from 'three'
 import {
   CAMERA_DESTINATION_BLEND,
   CAMERA_FOLLOW_DISTANCE,
+  CAMERA_FOV,
+  CAMERA_FOV_NARROW,
   CAMERA_HEIGHT,
   CAMERA_LERP_SPEED,
   CAMERA_LOOK_AHEAD,
+  CAMERA_NARROW_ASPECT,
   ENTER_CAMERA_PULL,
 } from './travelConfig'
 
@@ -17,8 +20,14 @@ const look = new Vector3()
 const ahead = new Vector3()
 
 function CameraRig({ shipRef, targetRef, phaseRef }) {
-  const { camera } = useThree()
+  const { camera, size } = useThree()
   const snapped = useRef(false)
+
+  useLayoutEffect(() => {
+    const aspect = size.width / Math.max(size.height, 1)
+    camera.fov = aspect < CAMERA_NARROW_ASPECT ? CAMERA_FOV_NARROW : CAMERA_FOV
+    camera.updateProjectionMatrix()
+  }, [camera, size.height, size.width])
 
   useFrame((_, delta) => {
     const ship = shipRef.current

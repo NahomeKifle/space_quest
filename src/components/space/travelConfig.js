@@ -14,3 +14,6 @@ export const CAMERA_LERP_SPEED = 2.6
 export const CAMERA_DESTINATION_BLEND = 0.16
 export const ENTER_CAMERA_PULL = 0.82
 export const ENTER_TRANSITION_MS = 800
+export const CAMERA_FOV = 42
+export const CAMERA_FOV_NARROW = 62
+export const CAMERA_NARROW_ASPECT = 0.7

@@ -4,6 +4,7 @@ import { Vector3 } from 'three'
 import CameraRig from './CameraRig'
 import Destinations from './Destinations'
 import { destinations } from './destinationData'
+import SpaceEffects from './SpaceEffects'
 import SpaceEnvironment from './SpaceEnvironment'
 import Spaceship from './Spaceship'
 import TravelController from './TravelController'
@@ -106,6 +107,7 @@ function SpaceScene({ onEnterDestination }) {
             interactive={!travelLocked}
             onSelect={handleSelect}
           />
+          <SpaceEffects />
         </Canvas>
         {selected && phase === 'selected' ? (
           <aside className={styles.panel} aria-live="polite">

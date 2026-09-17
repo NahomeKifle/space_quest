@@ -1,0 +1,38 @@
+export const destinations = [
+  {
+    id: 'projects',
+    label: 'Projects',
+    position: [-2.55, -0.05, -2.8],
+    geometryType: 'ringed',
+    labelOffset: [0, -1.15, 0],
+    description: 'Selected work and things I have built.',
+  },
+  {
+    id: 'experience',
+    label: 'Experience',
+    position: [2.95, 1.55, -5.2],
+    geometryType: 'station',
+    description: 'Roles, teams, and the work behind them.',
+  },
+  {
+    id: 'resume',
+    label: 'Resume',
+    position: [1.4, 2.05, -7.35],
+    geometryType: 'orb',
+    description: 'A concise record of skills and history.',
+  },
+  {
+    id: 'about',
+    label: 'About',
+    position: [-2.7, 1.4, -6.05],
+    geometryType: 'crystal',
+    description: 'Who I am and how I like to work.',
+  },
+  {
+    id: 'contact',
+    label: 'Contact',
+    position: [2.35, -0.12, -1.85],
+    geometryType: 'ring',
+    description: 'Ways to reach me.',
+  },
+]

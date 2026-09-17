@@ -7,11 +7,8 @@ function HomeContent() {
       <SpaceScene />
       <div className={styles.overlay}>
         <p className={styles.kicker}>Software Engineer</p>
-        <h1>Building software with care and curiosity.</h1>
-        <p>
-          A third-person view into open space. Destinations will come later;
-          for now, the ship holds position among the stars.
-        </p>
+        <h1>Building with care.</h1>
+        <p>Destinations wait in the dark. Select one to inspect it.</p>
       </div>
     </div>
   )

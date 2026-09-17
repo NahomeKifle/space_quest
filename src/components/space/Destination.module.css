@@ -1,0 +1,16 @@
+.label {
+  color: #8f8f8f;
+  font-size: 0.72rem;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  text-shadow: 0 1px 14px rgba(0, 0, 0, 0.95);
+  opacity: 0.9;
+  user-select: none;
+}
+
+.labelActive {
+  color: #ececec;
+  opacity: 1;
+}

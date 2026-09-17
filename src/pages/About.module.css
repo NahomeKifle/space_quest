@@ -1,4 +1,21 @@
-.page {
-  display: flex;
-  flex-direction: column;
+.block {
+  max-width: 40rem;
+  padding: 1.75rem 0 0;
+  border-top: 1px solid var(--border);
+}
+
+.block + .block {
+  margin-top: 1.75rem;
+}
+
+.block h2 {
+  margin-bottom: 0.7rem;
+}
+
+.block p {
+  max-width: none;
+}
+
+.block p + p {
+  margin-top: 0.85rem;
 }

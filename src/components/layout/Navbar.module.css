@@ -27,6 +27,12 @@
   white-space: nowrap;
 }
 
+.brand:focus-visible,
+.link:focus-visible {
+  outline: 1px solid var(--accent-soft);
+  outline-offset: 4px;
+}
+
 .links {
   display: flex;
   flex-wrap: wrap;
@@ -38,6 +44,8 @@
 }
 
 .link {
+  position: relative;
+  padding: 0.15rem 0;
   text-decoration: none;
   color: var(--text-muted);
   font-size: 0.9rem;
@@ -49,6 +57,18 @@
 
 .active {
   color: var(--text);
+}
+
+.active::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  bottom: -0.2rem;
+  left: 0;
+  height: 1px;
+  background: #7ec8ff;
+  box-shadow: 0 0 8px rgba(126, 200, 255, 0.35);
+  opacity: 0.75;
 }
 
 @media (max-width: 720px) {

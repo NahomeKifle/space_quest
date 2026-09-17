@@ -1,0 +1,10 @@
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.22rem 0.55rem;
+  border: 1px solid #2a2f38;
+  background: rgba(18, 22, 28, 0.8);
+  color: #c5d0dc;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+}

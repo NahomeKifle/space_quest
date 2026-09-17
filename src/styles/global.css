@@ -5,6 +5,7 @@
   --text-muted: #9a9a9a;
   --border: #222222;
   --accent: #d4d4d4;
+  --accent-soft: #9eb8cc;
   --font: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial,
     sans-serif;
   --max-width: 68rem;
@@ -33,6 +34,11 @@ body {
 
 a {
   color: inherit;
+}
+
+:focus-visible {
+  outline: 1px solid var(--accent-soft);
+  outline-offset: 3px;
 }
 
 h1,

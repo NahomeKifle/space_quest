@@ -7,21 +7,27 @@ const glass = '#5a7d99'
 const engine = '#2f3238'
 const glow = '#7ec8ff'
 
-function Spaceship() {
+function Spaceship({ idle = true }) {
   const groupRef = useRef(null)
 
   useFrame((state) => {
-    const t = state.clock.elapsedTime
     const group = groupRef.current
     if (!group) return
 
+    if (!idle) {
+      group.position.y = 0
+      group.rotation.set(0, 0, 0)
+      return
+    }
+
+    const t = state.clock.elapsedTime
     group.position.y = Math.sin(t * 0.55) * 0.1
     group.rotation.z = Math.sin(t * 0.4) * 0.025
     group.rotation.y = Math.sin(t * 0.18) * 0.04
   })
 
   return (
-    <group ref={groupRef} position={[0, 0.15, 0]}>
+    <group ref={groupRef}>
       <mesh position={[0, 0, 0]} rotation={[-Math.PI / 2, 0, 0]}>
         <cylinderGeometry args={[0.2, 0.32, 2.15, 10]} />
         <meshStandardMaterial color={hull} metalness={0.55} roughness={0.38} />

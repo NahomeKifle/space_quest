@@ -1,7 +1,7 @@
 import Destination from './Destination'
-import { destinations } from './destinations'
+import { destinations } from './destinationData'
 
-function Destinations({ selectedId, onSelect }) {
+function Destinations({ selectedId, interactive = true, onSelect }) {
   return (
     <group>
       {destinations.map((item) => (
@@ -13,6 +13,7 @@ function Destinations({ selectedId, onSelect }) {
           geometryType={item.geometryType}
           labelOffset={item.labelOffset}
           selected={selectedId === item.id}
+          interactive={interactive}
           onSelect={onSelect}
         />
       ))}

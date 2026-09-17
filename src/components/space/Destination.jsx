@@ -130,19 +130,24 @@ function Destination({
   geometryType,
   labelOffset = [0, 1.28, 0],
   selected,
+  interactive = true,
   onSelect,
 }) {
   const groupRef = useRef(null)
   const { gl } = useThree()
   const [hovered, setHovered] = useState(false)
-  const active = hovered || selected
+  const active = selected || (interactive && hovered)
 
   useEffect(() => {
-    gl.domElement.style.cursor = hovered ? 'pointer' : 'auto'
+    if (!interactive) setHovered(false)
+  }, [interactive])
+
+  useEffect(() => {
+    gl.domElement.style.cursor = interactive && hovered ? 'pointer' : 'auto'
     return () => {
       gl.domElement.style.cursor = 'auto'
     }
-  }, [gl, hovered])
+  }, [gl, hovered, interactive])
 
   useFrame((_, delta) => {
     const group = groupRef.current
@@ -160,10 +165,12 @@ function Destination({
         ref={groupRef}
         onClick={(event) => {
           event.stopPropagation()
+          if (!interactive) return
           onSelect(id)
         }}
         onPointerOver={(event) => {
           event.stopPropagation()
+          if (!interactive) return
           setHovered(true)
         }}
         onPointerOut={() => setHovered(false)}

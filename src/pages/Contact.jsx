@@ -1,6 +1,6 @@
 import PageFrame from '../components/portfolio/PageFrame'
 import SectionHeader from '../components/portfolio/SectionHeader'
-import { contact } from '../data/contact'
+import { contact, hasRealEmail } from '../data/contact'
 import styles from './Contact.module.css'
 
 function ContactRow({ label, children }) {
@@ -21,9 +21,13 @@ function Contact() {
 
       <dl className={styles.list}>
         <ContactRow label="Email">
-          <a className={styles.link} href={`mailto:${contact.email}`}>
-            {contact.email}
-          </a>
+          {hasRealEmail(contact.email) ? (
+            <a className={styles.link} href={`mailto:${contact.email}`}>
+              {contact.email}
+            </a>
+          ) : (
+            <span className={styles.pending}>Email coming soon</span>
+          )}
         </ContactRow>
         <ContactRow label="LinkedIn">
           {contact.linkedinHref ? (

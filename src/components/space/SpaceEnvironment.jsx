@@ -15,8 +15,11 @@ import {
   LIGHT_RIM_POSITION,
   SCENE_BACKGROUND,
   STAR_FAR_COUNT,
+  STAR_FAR_COUNT_NARROW,
   STAR_MID_COUNT,
+  STAR_MID_COUNT_NARROW,
   STAR_NEAR_COUNT,
+  STAR_NEAR_COUNT_NARROW,
 } from './visualConfig'
 
 function makeNebulaTexture(hex) {
@@ -60,7 +63,12 @@ function Nebula({ position, scale, color, opacity }) {
   )
 }
 
-function SpaceEnvironment() {
+function SpaceEnvironment({ compact = false, reducedMotion = false }) {
+  const far = compact ? STAR_FAR_COUNT_NARROW : STAR_FAR_COUNT
+  const mid = compact ? STAR_MID_COUNT_NARROW : STAR_MID_COUNT
+  const near = compact ? STAR_NEAR_COUNT_NARROW : STAR_NEAR_COUNT
+  const drift = reducedMotion ? 0 : 1
+
   return (
     <>
       <color attach="background" args={[SCENE_BACKGROUND]} />
@@ -105,29 +113,29 @@ function SpaceEnvironment() {
       <Stars
         radius={150}
         depth={70}
-        count={STAR_FAR_COUNT}
+        count={far}
         factor={2.4}
         saturation={0}
         fade
-        speed={0.18}
+        speed={0.18 * drift}
       />
       <Stars
         radius={78}
         depth={36}
-        count={STAR_MID_COUNT}
+        count={mid}
         factor={3.6}
         saturation={0.15}
         fade
-        speed={0.28}
+        speed={0.28 * drift}
       />
       <Stars
         radius={32}
         depth={14}
-        count={STAR_NEAR_COUNT}
+        count={near}
         factor={1.6}
         saturation={0}
         fade
-        speed={0.08}
+        speed={0.08 * drift}
       />
     </>
   )

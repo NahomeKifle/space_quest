@@ -65,6 +65,11 @@
   opacity: 0.45;
 }
 
+.travel:focus-visible {
+  outline: 1px solid #9eb8cc;
+  outline-offset: 3px;
+}
+
 .fade {
   position: fixed;
   inset: 0;

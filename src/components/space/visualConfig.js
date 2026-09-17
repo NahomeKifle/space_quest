@@ -28,5 +28,10 @@ export const VIGNETTE_DARKNESS = 0.38
 export const STAR_FAR_COUNT = 2600
 export const STAR_MID_COUNT = 900
 export const STAR_NEAR_COUNT = 180
+export const STAR_FAR_COUNT_NARROW = 900
+export const STAR_MID_COUNT_NARROW = 280
+export const STAR_NEAR_COUNT_NARROW = 60
+
+export const BLOOM_INTENSITY_NARROW = 0.12
 
 export const DESTINATION_HIT_RADIUS = 1.08

@@ -19,6 +19,7 @@ function Destination({
   labelOffset = [0, 1.28, 0],
   selected,
   interactive = true,
+  reducedMotion = false,
   onSelect,
 }) {
   const groupRef = useRef(null)
@@ -46,7 +47,7 @@ function Destination({
     const group = groupRef.current
     if (!group) return
 
-    group.rotation.y += delta * 0.12
+    if (!reducedMotion) group.rotation.y += delta * 0.12
     const target = active ? 1.12 : 1
     const next = group.scale.x + (target - group.scale.x) * Math.min(1, delta * 5)
     group.scale.setScalar(next)
@@ -81,7 +82,10 @@ function Destination({
         pointerEvents="none"
         zIndexRange={[4, 0]}
       >
-        <div className={active ? `${styles.label} ${styles.labelActive}` : styles.label}>
+        <div
+          className={active ? `${styles.label} ${styles.labelActive}` : styles.label}
+          aria-hidden="true"
+        >
           {label}
         </div>
       </Html>

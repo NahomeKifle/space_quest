@@ -24,7 +24,7 @@ function ShipFallback() {
   )
 }
 
-function ShipModel({ idle = true }) {
+function ShipModel({ idle = true, reducedMotion = false }) {
   const groupRef = useRef(null)
   const glow = idle ? ENGINE_EMISSIVE_IDLE : ENGINE_EMISSIVE_TRAVEL
   const engineLight = idle
@@ -35,7 +35,7 @@ function ShipModel({ idle = true }) {
     const group = groupRef.current
     if (!group) return
 
-    if (!idle) {
+    if (!idle || reducedMotion) {
       group.position.y = 0
       group.rotation.set(0, 0, 0)
       return
@@ -203,10 +203,10 @@ function ShipModel({ idle = true }) {
   )
 }
 
-function Spaceship({ idle = true }) {
+function Spaceship({ idle = true, reducedMotion = false }) {
   return (
     <Suspense fallback={<ShipFallback />}>
-      <ShipModel idle={idle} />
+      <ShipModel idle={idle} reducedMotion={reducedMotion} />
     </Suspense>
   )
 }

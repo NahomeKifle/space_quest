@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { Vector3 } from 'three'
+import useNarrowViewport from '../../hooks/useNarrowViewport'
+import usePrefersReducedMotion from '../../hooks/usePrefersReducedMotion'
 import CameraRig from './CameraRig'
 import Destinations from './Destinations'
 import { destinations } from './destinationData'
@@ -12,6 +14,8 @@ import { ENTER_TRANSITION_MS, SHIP_START_POSITION } from './travelConfig'
 import styles from './SpaceScene.module.css'
 
 function SpaceScene({ onEnterDestination }) {
+  const reducedMotion = usePrefersReducedMotion()
+  const compact = useNarrowViewport()
   const [selectedId, setSelectedId] = useState(null)
   const [phase, setPhase] = useState('idle')
   const shipRef = useRef(null)
@@ -75,16 +79,20 @@ function SpaceScene({ onEnterDestination }) {
     enterTimerRef.current = window.setTimeout(() => {
       enterTimerRef.current = null
       onEnterDestination(selected.route)
-    }, ENTER_TRANSITION_MS)
+    }, reducedMotion ? 80 : ENTER_TRANSITION_MS)
   }
 
   return (
     <>
-      <div className={styles.scene}>
+      <div
+        className={styles.scene}
+        role="region"
+        aria-label="Interactive space destinations"
+      >
         <Canvas
           camera={{ fov: 42, near: 0.1, far: 400, position: [0, 3.6, 7.4] }}
-          dpr={[1, 2]}
-          gl={{ antialias: true, alpha: false }}
+          dpr={compact ? [1, 1.25] : [1, 2]}
+          gl={{ antialias: !compact, alpha: false }}
           onPointerMissed={handleMiss}
         >
           <CameraRig
@@ -98,16 +106,20 @@ function SpaceScene({ onEnterDestination }) {
             targetRef={targetRef}
             onPhaseChange={changePhase}
           />
-          <SpaceEnvironment />
+          <SpaceEnvironment compact={compact} reducedMotion={reducedMotion} />
           <group ref={shipRef} position={SHIP_START_POSITION}>
-            <Spaceship idle={phase === 'idle' || phase === 'selected'} />
+            <Spaceship
+              idle={phase === 'idle' || phase === 'selected'}
+              reducedMotion={reducedMotion}
+            />
           </group>
           <Destinations
             selectedId={selectedId}
             interactive={!travelLocked}
+            reducedMotion={reducedMotion}
             onSelect={handleSelect}
           />
-          <SpaceEffects />
+          <SpaceEffects compact={compact} />
         </Canvas>
         {selected && phase === 'selected' ? (
           <aside className={styles.panel} aria-live="polite">
@@ -141,7 +153,9 @@ function SpaceScene({ onEnterDestination }) {
         className={
           phase === 'entering' ? `${styles.fade} ${styles.fadeActive}` : styles.fade
         }
-        style={{ transitionDuration: `${ENTER_TRANSITION_MS}ms` }}
+        style={{
+          transitionDuration: reducedMotion ? '80ms' : `${ENTER_TRANSITION_MS}ms`,
+        }}
         aria-hidden="true"
       />
     </>

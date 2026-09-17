@@ -1,0 +1,33 @@
+.shell {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: 2rem 1.5rem 4.5rem;
+  background: #03050b;
+}
+
+.copy {
+  margin: 0;
+  max-width: 22rem;
+  color: #9a9a9a;
+  font-size: 0.95rem;
+}
+
+.mark {
+  display: block;
+  width: 1.75rem;
+  height: 1px;
+  margin-top: 1rem;
+  background: #7ec8ff;
+  opacity: 0.45;
+}
+
+@media (max-width: 640px) {
+  .shell {
+    padding: 1.5rem 1.25rem 3.5rem;
+  }
+}

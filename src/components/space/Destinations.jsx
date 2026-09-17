@@ -1,7 +1,12 @@
 import Destination from './Destination'
 import { destinations } from './destinationData'
 
-function Destinations({ selectedId, interactive = true, onSelect }) {
+function Destinations({
+  selectedId,
+  interactive = true,
+  reducedMotion = false,
+  onSelect,
+}) {
   return (
     <group>
       {destinations.map((item) => (
@@ -14,6 +19,7 @@ function Destinations({ selectedId, interactive = true, onSelect }) {
           labelOffset={item.labelOffset}
           selected={selectedId === item.id}
           interactive={interactive}
+          reducedMotion={reducedMotion}
           onSelect={onSelect}
         />
       ))}

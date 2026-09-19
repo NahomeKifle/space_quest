@@ -8,12 +8,21 @@ import {
   LIGHT_ENGINE_DISTANCE,
   LIGHT_ENGINE_INTENSITY,
 } from './visualConfig'
-import { BANK_GAIN, BANK_MAX, BANK_RETURN } from './travelConfig'
+import {
+  BANK_GAIN,
+  BANK_MAX,
+  BANK_RETURN,
+  MAX_FRAME_DELTA,
+  TRAVEL_SPEED,
+} from './travelConfig'
 
 // Visual-only transform. TravelController still treats local -Z as forward.
 const SPITFIRE_TARGET_SIZE = 2.9
 const SPITFIRE_ROTATION = [0, 0, 0]
 const SPITFIRE_OFFSET = [0, 0.04, 0]
+const ENGINE_IDLE = LIGHT_ENGINE_INTENSITY * 0.72
+const ENGINE_TRAVEL_MIN = LIGHT_ENGINE_INTENSITY * 0.8
+const ENGINE_TRAVEL_GAIN = LIGHT_ENGINE_INTENSITY * 0.28
 
 const yawEuler = new Euler()
 
@@ -34,15 +43,25 @@ function wrapAngle(value) {
 
 function ShipModel({ idle = true, reducedMotion = false }) {
   const groupRef = useRef(null)
+  const lightRef = useRef(null)
   const prevYaw = useRef(null)
   const bank = useRef(0)
-  const engineLight = idle
-    ? LIGHT_ENGINE_INTENSITY * 0.72
-    : LIGHT_ENGINE_INTENSITY
 
   useFrame((state, delta) => {
     const group = groupRef.current
     if (!group) return
+
+    const dt = Math.min(delta, MAX_FRAME_DELTA)
+    const parent = group.parent
+    const speed = parent?.userData.travelSpeed ?? 0
+    const cruise = Math.min(Math.max(speed / TRAVEL_SPEED, 0), 1)
+    const light = lightRef.current
+    if (light) {
+      const target = idle
+        ? ENGINE_IDLE
+        : ENGINE_TRAVEL_MIN + ENGINE_TRAVEL_GAIN * cruise
+      light.intensity += (target - light.intensity) * (1 - Math.exp(-5.5 * dt))
+    }
 
     if (idle) {
       prevYaw.current = null
@@ -60,7 +79,6 @@ function ShipModel({ idle = true, reducedMotion = false }) {
       return
     }
 
-    const parent = group.parent
     group.position.y = 0
     group.rotation.x = 0
     group.rotation.y = 0
@@ -73,11 +91,11 @@ function ShipModel({ idle = true, reducedMotion = false }) {
     yawEuler.setFromQuaternion(parent.quaternion, 'YXZ')
     const yaw = yawEuler.y
     if (prevYaw.current === null) prevYaw.current = yaw
-    const yawRate = wrapAngle(yaw - prevYaw.current) / Math.max(delta, 1 / 120)
+    const yawRate = wrapAngle(yaw - prevYaw.current) / Math.max(dt, 1 / 120)
     prevYaw.current = yaw
 
     const targetBank = Math.max(-BANK_MAX, Math.min(BANK_MAX, -yawRate * BANK_GAIN))
-    const smoothing = 1 - Math.exp(-BANK_RETURN * delta)
+    const smoothing = 1 - Math.exp(-BANK_RETURN * dt)
     bank.current += (targetBank - bank.current) * smoothing
     group.rotation.z = bank.current
   })
@@ -91,9 +109,10 @@ function ShipModel({ idle = true, reducedMotion = false }) {
         position={SPITFIRE_OFFSET}
       />
       <pointLight
+        ref={lightRef}
         position={[0, -0.04, 0.82]}
         color={LIGHT_ENGINE_COLOR}
-        intensity={engineLight}
+        intensity={ENGINE_IDLE}
         distance={LIGHT_ENGINE_DISTANCE}
         decay={2}
       />

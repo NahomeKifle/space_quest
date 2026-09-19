@@ -34,7 +34,9 @@ function HomeContent() {
       <div className={styles.overlay}>
         <p className={styles.kicker}>Software Engineer</p>
         <h1>Nahome Kifle</h1>
-        <p>Backend systems, cloud, data, and interactive software.</p>
+        <p className={styles.tagline}>
+          Backend systems, cloud, data, and interactive software.
+        </p>
         <p className={styles.instruction}>Select a destination to explore.</p>
         <p className="visually-hidden">
           Destinations: {destinations.map((item) => item.label).join(', ')}.

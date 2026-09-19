@@ -1,6 +1,7 @@
 .root {
+  position: relative;
   width: 100%;
-  align-self: flex-start;
+  min-height: calc(100svh - 5.5rem);
 }
 
 .overlay {
@@ -35,14 +36,31 @@
   text-transform: uppercase;
 }
 
-@media (max-width: 640px) {
-  .overlay {
-    max-width: 16.5rem;
-  }
+.tagline {
+  max-width: 22rem;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 720px) {
   .overlay {
-    max-width: 16.5rem;
+    max-width: 13.5rem;
+  }
+
+  .overlay h1 {
+    font-size: 1.12rem;
+    margin-bottom: 0.2rem;
+  }
+
+  .kicker {
+    margin-bottom: 0.28rem;
+    font-size: 0.72rem;
+  }
+
+  .tagline {
+    display: none;
+  }
+
+  .instruction {
+    margin-top: 0.3rem;
+    font-size: 0.78rem;
   }
 }

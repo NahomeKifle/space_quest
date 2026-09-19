@@ -2,7 +2,7 @@ import { Suspense, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { Html } from '@react-three/drei'
 import { useFrame, useThree } from '@react-three/fiber'
 import DestinationVisual, { VisualFallback } from './DestinationVisuals'
-import { DESTINATION_HIT_RADIUS } from './visualConfig'
+import { DESTINATION_HIT_RADIUS, DESTINATION_HOVER_SCALE } from './visualConfig'
 import styles from './Destination.module.css'
 
 function disableMeshRaycast(object) {
@@ -17,6 +17,7 @@ function Destination({
   position,
   geometryType,
   labelOffset = [0, 1.28, 0],
+  hitRadius = DESTINATION_HIT_RADIUS,
   selected,
   interactive = true,
   reducedMotion = false,
@@ -47,8 +48,8 @@ function Destination({
     const group = groupRef.current
     if (!group) return
 
-    if (!reducedMotion) group.rotation.y += delta * 0.12
-    const target = active ? 1.12 : 1
+    if (!reducedMotion) group.rotation.y += delta * 0.055
+    const target = active ? DESTINATION_HOVER_SCALE : 1
     const next = group.scale.x + (target - group.scale.x) * Math.min(1, delta * 5)
     group.scale.setScalar(next)
   })
@@ -70,7 +71,7 @@ function Destination({
           }}
           onPointerOut={() => setHovered(false)}
         >
-          <sphereGeometry args={[DESTINATION_HIT_RADIUS, 8, 8]} />
+          <sphereGeometry args={[hitRadius, 8, 8]} />
         </mesh>
         <group ref={visualRef}>
           <Suspense fallback={<VisualFallback />}>

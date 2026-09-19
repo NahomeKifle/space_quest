@@ -19,11 +19,11 @@ export const ENGINE_EMISSIVE = '#8fd4ff'
 export const ENGINE_EMISSIVE_IDLE = 1.2
 export const ENGINE_EMISSIVE_TRAVEL = 1.9
 
-export const BLOOM_INTENSITY = 0.22
-export const BLOOM_THRESHOLD = 0.9
-export const BLOOM_RADIUS = 0.28
-export const VIGNETTE_OFFSET = 0.32
-export const VIGNETTE_DARKNESS = 0.38
+export const BLOOM_INTENSITY = 0.16
+export const BLOOM_THRESHOLD = 0.92
+export const BLOOM_RADIUS = 0.24
+export const VIGNETTE_OFFSET = 0.34
+export const VIGNETTE_DARKNESS = 0.32
 
 export const STAR_FAR_COUNT = 2600
 export const STAR_MID_COUNT = 900
@@ -32,6 +32,7 @@ export const STAR_FAR_COUNT_NARROW = 900
 export const STAR_MID_COUNT_NARROW = 280
 export const STAR_NEAR_COUNT_NARROW = 60
 
-export const BLOOM_INTENSITY_NARROW = 0.12
+export const BLOOM_INTENSITY_NARROW = 0.1
 
 export const DESTINATION_HIT_RADIUS = 1.08
+export const DESTINATION_HOVER_SCALE = 1.035

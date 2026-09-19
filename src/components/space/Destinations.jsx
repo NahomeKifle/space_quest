@@ -1,7 +1,12 @@
 import Destination from './Destination'
-import { destinations } from './destinationData'
+import {
+  getDestinationLabelOffset,
+  getDestinationPosition,
+} from './destinationData'
 
 function Destinations({
+  destinations,
+  compact = false,
   selectedId,
   interactive = true,
   reducedMotion = false,
@@ -14,9 +19,10 @@ function Destinations({
           key={item.id}
           id={item.id}
           label={item.label}
-          position={item.position}
+          position={getDestinationPosition(item, compact)}
           geometryType={item.geometryType}
-          labelOffset={item.labelOffset}
+          labelOffset={getDestinationLabelOffset(item, compact)}
+          hitRadius={item.hitRadius}
           selected={selectedId === item.id}
           interactive={interactive}
           reducedMotion={reducedMotion}

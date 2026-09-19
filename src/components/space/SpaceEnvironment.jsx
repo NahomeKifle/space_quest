@@ -72,7 +72,7 @@ function SpaceEnvironment({ compact = false, reducedMotion = false }) {
   return (
     <>
       <color attach="background" args={[SCENE_BACKGROUND]} />
-      <fog attach="fog" args={[SCENE_BACKGROUND, 52, 170]} />
+      <fog attach="fog" args={[SCENE_BACKGROUND, 26, 88]} />
 
       <ambientLight intensity={LIGHT_AMBIENT_INTENSITY} color={LIGHT_AMBIENT_COLOR} />
       <hemisphereLight

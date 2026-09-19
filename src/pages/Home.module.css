@@ -1,5 +1,6 @@
 .page {
-  min-height: 50vh;
+  position: relative;
+  min-height: calc(100svh - 4.5rem);
   display: flex;
-  align-items: center;
+  align-items: flex-start;
 }

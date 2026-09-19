@@ -1,25 +1,26 @@
 .label {
   color: #d4d4d4;
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   white-space: nowrap;
   text-shadow:
     0 1px 12px rgba(0, 0, 0, 0.95),
     0 0 18px rgba(0, 0, 0, 0.8);
-  opacity: 0.74;
+  opacity: 0.64;
   user-select: none;
 }
 
 .labelActive {
   color: #ececec;
-  opacity: 1;
+  opacity: 0.95;
 }
 
 @media (max-width: 640px) {
   .label {
-    font-size: 0.62rem;
-    letter-spacing: 0.12em;
+    font-size: 0.56rem;
+    letter-spacing: 0.1em;
+    opacity: 0.5;
   }
 }

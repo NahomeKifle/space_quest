@@ -7,6 +7,7 @@ import {
   ROTATION_ALIGN_THRESHOLD,
   ROTATION_SPEED,
   TRAVEL_SPEED,
+  travelEase,
 } from './travelConfig'
 
 const nose = new Vector3(0, 0, -1)
@@ -82,13 +83,10 @@ function TravelController({ shipRef, phaseRef, targetRef, onPhaseChange }) {
       const duration = Math.max(total / TRAVEL_SPEED, 0.4)
       travelTRef.current += delta / duration
       const t = Math.min(travelTRef.current, 1)
-      const eased = t * t * (3 - 2 * t)
-      ship.position.lerpVectors(startPos.current, arrivalPos.current, eased)
+      ship.position.lerpVectors(startPos.current, arrivalPos.current, travelEase(t))
       ship.quaternion.rotateTowards(targetQuat, ROTATION_SPEED * delta)
 
       if (t >= 1) {
-        ship.position.copy(arrivalPos.current)
-        ship.quaternion.copy(targetQuat)
         onPhaseChange('arrived')
       }
     }

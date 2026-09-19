@@ -1,5 +1,6 @@
 import { Suspense, useRef } from 'react'
 import { useFrame } from '@react-three/fiber'
+import { Euler } from 'three'
 import FittedGltf from './FittedGltf'
 import { GLTF_SPITFIRE } from './gltfAssets'
 import {
@@ -7,11 +8,14 @@ import {
   LIGHT_ENGINE_DISTANCE,
   LIGHT_ENGINE_INTENSITY,
 } from './visualConfig'
+import { BANK_GAIN, BANK_MAX, BANK_RETURN } from './travelConfig'
 
 // Visual-only transform. TravelController still treats local -Z as forward.
 const SPITFIRE_TARGET_SIZE = 2.9
 const SPITFIRE_ROTATION = [0, 0, 0]
 const SPITFIRE_OFFSET = [0, 0.04, 0]
+
+const yawEuler = new Euler()
 
 function ShipFallback() {
   return (
@@ -22,26 +26,60 @@ function ShipFallback() {
   )
 }
 
+function wrapAngle(value) {
+  if (value > Math.PI) return value - Math.PI * 2
+  if (value < -Math.PI) return value + Math.PI * 2
+  return value
+}
+
 function ShipModel({ idle = true, reducedMotion = false }) {
   const groupRef = useRef(null)
+  const prevYaw = useRef(null)
+  const bank = useRef(0)
   const engineLight = idle
     ? LIGHT_ENGINE_INTENSITY * 0.72
     : LIGHT_ENGINE_INTENSITY
 
-  useFrame((state) => {
+  useFrame((state, delta) => {
     const group = groupRef.current
     if (!group) return
 
-    if (!idle || reducedMotion) {
-      group.position.y = 0
-      group.rotation.set(0, 0, 0)
+    if (idle) {
+      prevYaw.current = null
+      bank.current = 0
+      if (reducedMotion) {
+        group.position.y = 0
+        group.rotation.set(0, 0, 0)
+        return
+      }
+
+      const t = state.clock.elapsedTime
+      group.position.y = Math.sin(t * 0.55) * 0.1
+      group.rotation.z = Math.sin(t * 0.4) * 0.025
+      group.rotation.y = Math.sin(t * 0.18) * 0.04
       return
     }
 
-    const t = state.clock.elapsedTime
-    group.position.y = Math.sin(t * 0.55) * 0.1
-    group.rotation.z = Math.sin(t * 0.4) * 0.025
-    group.rotation.y = Math.sin(t * 0.18) * 0.04
+    const parent = group.parent
+    group.position.y = 0
+    group.rotation.x = 0
+    group.rotation.y = 0
+
+    if (!parent) {
+      group.rotation.z = 0
+      return
+    }
+
+    yawEuler.setFromQuaternion(parent.quaternion, 'YXZ')
+    const yaw = yawEuler.y
+    if (prevYaw.current === null) prevYaw.current = yaw
+    const yawRate = wrapAngle(yaw - prevYaw.current) / Math.max(delta, 1 / 120)
+    prevYaw.current = yaw
+
+    const targetBank = Math.max(-BANK_MAX, Math.min(BANK_MAX, -yawRate * BANK_GAIN))
+    const smoothing = 1 - Math.exp(-BANK_RETURN * delta)
+    bank.current += (targetBank - bank.current) * smoothing
+    group.rotation.z = bank.current
   })
 
   return (

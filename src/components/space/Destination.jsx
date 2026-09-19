@@ -1,7 +1,7 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { Suspense, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { Html } from '@react-three/drei'
 import { useFrame, useThree } from '@react-three/fiber'
-import DestinationVisual from './DestinationVisuals'
+import DestinationVisual, { VisualFallback } from './DestinationVisuals'
 import { DESTINATION_HIT_RADIUS } from './visualConfig'
 import styles from './Destination.module.css'
 
@@ -73,7 +73,9 @@ function Destination({
           <sphereGeometry args={[DESTINATION_HIT_RADIUS, 8, 8]} />
         </mesh>
         <group ref={visualRef}>
-          <DestinationVisual geometryType={geometryType} active={active} />
+          <Suspense fallback={<VisualFallback />}>
+            <DestinationVisual geometryType={geometryType} active={active} />
+          </Suspense>
         </group>
       </group>
       <Html

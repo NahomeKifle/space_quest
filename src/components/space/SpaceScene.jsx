@@ -1,11 +1,18 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Canvas } from '@react-three/fiber'
+import { useGLTF } from '@react-three/drei'
 import { Vector3 } from 'three'
 import useNarrowViewport from '../../hooks/useNarrowViewport'
 import usePrefersReducedMotion from '../../hooks/usePrefersReducedMotion'
 import CameraRig from './CameraRig'
 import Destinations from './Destinations'
 import { destinations } from './destinationData'
+import {
+  GLTF_EXPERIENCE_DOME,
+  GLTF_PLANET_ABOUT,
+  GLTF_PLANET_PROJECTS,
+  GLTF_SPITFIRE,
+} from './gltfAssets'
 import SpaceEffects from './SpaceEffects'
 import SpaceEnvironment from './SpaceEnvironment'
 import Spaceship from './Spaceship'
@@ -36,6 +43,13 @@ function SpaceScene({ onEnterDestination }) {
     if (phaseRef.current === next) return
     phaseRef.current = next
     setPhase(next)
+  }, [])
+
+  useEffect(() => {
+    useGLTF.preload(GLTF_SPITFIRE)
+    useGLTF.preload(GLTF_PLANET_PROJECTS)
+    useGLTF.preload(GLTF_PLANET_ABOUT)
+    useGLTF.preload(GLTF_EXPERIENCE_DOME)
   }, [])
 
   useEffect(() => {
@@ -119,7 +133,7 @@ function SpaceScene({ onEnterDestination }) {
             reducedMotion={reducedMotion}
             onSelect={handleSelect}
           />
-          <SpaceEffects compact={compact} />
+          {travelLocked ? null : <SpaceEffects compact={compact} />}
         </Canvas>
         {selected && phase === 'selected' ? (
           <aside className={styles.panel} aria-live="polite">

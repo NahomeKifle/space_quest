@@ -92,11 +92,11 @@
   border-bottom-color: #9eb8cc;
 }
 
-.pending {
-  margin: 1.15rem 0 0;
-  color: #7a8794;
-  font-size: 0.9rem;
-  max-width: none;
+.links a[target='_blank']::after {
+  content: '↗';
+  margin-left: 0.28em;
+  font-size: 0.72em;
+  opacity: 0.55;
 }
 
 @media (min-width: 860px) {

@@ -1,4 +1,5 @@
-// TODO: replace with a real file path such as '/resume.pdf' when it exists.
+// Place the file at public/Nahome_Kifle_Resume.pdf, then set this to
+// '/Nahome_Kifle_Resume.pdf'. Leave null to keep the coming-soon state.
 export const resumePdfHref = null
 
 export const skillGroups = [

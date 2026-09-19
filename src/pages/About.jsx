@@ -7,9 +7,9 @@ function About() {
     <PageFrame>
       <SectionHeader kicker="Background" title="About">
         <p>
-          I am a software engineer who likes the parts of a system that stay
-          useful after the demo: data models, APIs, pipelines, and the quiet
-          infrastructure that keeps a product honest.
+          I like the parts of a system that stay useful after the demo: data
+          models, APIs, pipelines, and the quiet infrastructure that keeps a
+          product honest.
         </p>
       </SectionHeader>
 

@@ -34,6 +34,18 @@
   border-color: #7ea8c4;
 }
 
+.button:focus-visible {
+  outline: 1px solid var(--accent-soft);
+  outline-offset: 3px;
+}
+
+.button[target='_blank']::after {
+  content: '↗';
+  margin-left: 0.35em;
+  font-size: 0.72em;
+  opacity: 0.55;
+}
+
 .placeholder p {
   max-width: none;
 }

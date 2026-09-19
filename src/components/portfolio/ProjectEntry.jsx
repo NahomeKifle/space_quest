@@ -30,19 +30,25 @@ function ProjectEntry({ project, index }) {
         {hasLinks ? (
           <p className={styles.links}>
             {project.github ? (
-              <a href={project.github} target="_blank" rel="noreferrer">
+              <a
+                href={project.github}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 GitHub
               </a>
             ) : null}
             {project.demo ? (
-              <a href={project.demo} target="_blank" rel="noreferrer">
+              <a
+                href={project.demo}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 Live demo
               </a>
             ) : null}
           </p>
-        ) : (
-          <p className={styles.pending}>GitHub / demo link coming soon</p>
-        )}
+        ) : null}
       </div>
     </article>
   )

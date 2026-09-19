@@ -8,13 +8,14 @@ const titles = {
   '/resume': 'Resume | Nahome Kifle',
   '/about': 'About | Nahome Kifle',
   '/contact': 'Contact | Nahome Kifle',
+  '/asset-preview': 'Asset Preview | Nahome Kifle',
 }
 
 function useDocumentTitle() {
   const { pathname } = useLocation()
 
   useEffect(() => {
-    document.title = titles[pathname] ?? 'Nahome Kifle | Software Engineer'
+    document.title = titles[pathname] ?? '404 | Nahome Kifle'
   }, [pathname])
 }
 

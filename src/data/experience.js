@@ -17,8 +17,8 @@ export const experience = [
     dates: null,
     points: [
       'Government technology work in the Digital Change / Talent Practice.',
-      'Built and integrated conversational and automation pieces with AWS Lex, Lambda (Python), and Node.js.',
-      'Worked with watsonx and RAG / LLM agent integration alongside PeopleSoft integrations.',
+      'Built and integrated conversational and automation systems with AWS Lex, Lambda (Python), and Node.js.',
+      'Worked with watsonx, RAG / LLM agent integration, and PeopleSoft integrations.',
     ],
   },
   {

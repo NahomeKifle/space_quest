@@ -1,14 +1,14 @@
 export const SCENE_BACKGROUND = '#03050b'
 
-export const LIGHT_AMBIENT_INTENSITY = 0.07
+export const LIGHT_AMBIENT_INTENSITY = 0.11
 export const LIGHT_AMBIENT_COLOR = '#1a2438'
-export const LIGHT_HEMISPHERE_SKY = '#24344f'
+export const LIGHT_HEMISPHERE_SKY = '#2a3d5c'
 export const LIGHT_HEMISPHERE_GROUND = '#07080c'
-export const LIGHT_HEMISPHERE_INTENSITY = 0.22
-export const LIGHT_KEY_INTENSITY = 1.18
+export const LIGHT_HEMISPHERE_INTENSITY = 0.34
+export const LIGHT_KEY_INTENSITY = 1.32
 export const LIGHT_KEY_COLOR = '#e6dfd2'
-export const LIGHT_KEY_POSITION = [6.2, 8.4, 5.5]
-export const LIGHT_RIM_INTENSITY = 0.42
+export const LIGHT_KEY_POSITION = [7.2, 7.6, 4.8]
+export const LIGHT_RIM_INTENSITY = 0.58
 export const LIGHT_RIM_COLOR = '#6d86b0'
 export const LIGHT_RIM_POSITION = [-5.4, 1.8, -6.2]
 export const LIGHT_ENGINE_INTENSITY = 0.32

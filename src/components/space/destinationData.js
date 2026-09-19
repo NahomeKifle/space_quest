@@ -5,7 +5,7 @@ export const destinations = [
     route: '/projects',
     position: [-2.55, -0.05, -2.8],
     geometryType: 'ringed',
-    labelOffset: [0, -1.15, 0],
+    labelOffset: [0, -1.38, 0],
     description: 'Selected work and things I have built.',
   },
   {
@@ -14,6 +14,7 @@ export const destinations = [
     route: '/experience',
     position: [2.95, 1.55, -5.2],
     geometryType: 'station',
+    labelOffset: [0, 1.4, 0],
     description: 'Roles, teams, and the work behind them.',
   },
   {
@@ -22,6 +23,7 @@ export const destinations = [
     route: '/resume',
     position: [1.4, 2.05, -7.35],
     geometryType: 'orb',
+    labelOffset: [0, 1.12, 0],
     description: 'A concise record of skills and history.',
   },
   {
@@ -30,6 +32,7 @@ export const destinations = [
     route: '/about',
     position: [-2.7, 1.4, -6.05],
     geometryType: 'crystal',
+    labelOffset: [1.05, 0.15, 0],
     description: 'Who I am and how I like to work.',
   },
   {
@@ -38,6 +41,7 @@ export const destinations = [
     route: '/contact',
     position: [2.35, -0.12, -1.85],
     geometryType: 'ring',
+    labelOffset: [0, 1.08, 0],
     description: 'Ways to reach me.',
   },
 ]

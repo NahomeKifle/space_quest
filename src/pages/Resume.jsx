@@ -8,10 +8,7 @@ function Resume() {
   return (
     <PageFrame>
       <SectionHeader kicker="Record" title="Resume">
-        <p>
-          A concise map of languages, systems, and tools. The PDF will live
-          here when it is ready to share.
-        </p>
+        <p>A concise map of languages, systems, and tools.</p>
       </SectionHeader>
 
       <section className={styles.file} aria-labelledby="resume-file-heading">
@@ -22,11 +19,15 @@ function Resume() {
               className={styles.button}
               href={resumePdfHref}
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
             >
               View Resume
             </a>
-            <a className={styles.button} href={resumePdfHref} download>
+            <a
+              className={styles.button}
+              href={resumePdfHref}
+              download="Nahome_Kifle_Resume.pdf"
+            >
               Download Resume
             </a>
           </div>

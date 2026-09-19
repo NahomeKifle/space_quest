@@ -12,51 +12,64 @@ function ContactRow({ label, children }) {
   )
 }
 
+function ExternalLink({ href, children }) {
+  return (
+    <a
+      className={styles.link}
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      {children}
+    </a>
+  )
+}
+
 function Contact() {
+  const email = hasRealEmail(contact.email) ? contact.email : ''
+  const hasReachable =
+    Boolean(email) || Boolean(contact.linkedinHref) || Boolean(contact.githubHref)
+
   return (
     <PageFrame>
       <SectionHeader kicker="Reach out" title="Contact">
-        <p>The shortest path is email. Profiles will land here as they are ready.</p>
+        <p>
+          {`Based in ${contact.location}${
+            contact.relocation ? `, and ${contact.relocation.toLowerCase()}` : ''
+          }.`}
+          {contact.githubHref && !email && !contact.linkedinHref
+            ? ' GitHub is the best way to reach me right now.'
+            : ''}
+        </p>
       </SectionHeader>
 
       <dl className={styles.list}>
-        <ContactRow label="Email">
-          {hasRealEmail(contact.email) ? (
-            <a className={styles.link} href={`mailto:${contact.email}`}>
-              {contact.email}
+        {email ? (
+          <ContactRow label="Email">
+            <a className={styles.link} href={`mailto:${email}`}>
+              {email}
             </a>
-          ) : (
-            <span className={styles.pending}>Email coming soon</span>
-          )}
-        </ContactRow>
-        <ContactRow label="LinkedIn">
-          {contact.linkedinHref ? (
-            <a
-              className={styles.link}
-              href={contact.linkedinHref}
-              target="_blank"
-              rel="noreferrer"
-            >
+          </ContactRow>
+        ) : null}
+        {contact.linkedinHref ? (
+          <ContactRow label="LinkedIn">
+            <ExternalLink href={contact.linkedinHref}>
               {contact.linkedinLabel}
-            </a>
-          ) : (
-            <span className={styles.pending}>Profile link coming soon</span>
-          )}
-        </ContactRow>
-        <ContactRow label="GitHub">
-          {contact.githubHref ? (
-            <a
-              className={styles.link}
-              href={contact.githubHref}
-              target="_blank"
-              rel="noreferrer"
-            >
+            </ExternalLink>
+          </ContactRow>
+        ) : null}
+        {contact.githubHref ? (
+          <ContactRow label="GitHub">
+            <ExternalLink href={contact.githubHref}>
               {contact.githubLabel}
-            </a>
-          ) : (
-            <span className={styles.pending}>Profile link coming soon</span>
-          )}
-        </ContactRow>
+            </ExternalLink>
+          </ContactRow>
+        ) : null}
+        {!hasReachable ? (
+          <ContactRow label="Contact">
+            <span className={styles.pending}>Contact information coming soon</span>
+          </ContactRow>
+        ) : null}
         <ContactRow label="Location">
           {contact.location}
           {contact.relocation ? (

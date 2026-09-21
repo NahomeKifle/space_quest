@@ -4,6 +4,8 @@ import { Vector3 } from 'three'
 import {
   CAMERA_DEFAULT_DISTANCE,
   CAMERA_DESTINATION_BLEND,
+  CAMERA_DESTINATION_BLEND_ARRIVE,
+  CAMERA_DESTINATION_BLEND_TURN,
   CAMERA_FOV,
   CAMERA_FOV_NARROW,
   CAMERA_HEIGHT,
@@ -13,11 +15,15 @@ import {
   CAMERA_LERP_TURN,
   CAMERA_LOOK_AHEAD,
   CAMERA_LOOK_LERP,
+  CAMERA_LOOK_LERP_TURN,
   CAMERA_MAX_DISTANCE,
   CAMERA_MIN_DISTANCE,
   CAMERA_NARROW_ASPECT,
+  CAMERA_SPEED_LAG,
   CAMERA_ZOOM_SPEED,
   ENTER_CAMERA_PULL,
+  MAX_FRAME_DELTA,
+  TRAVEL_SPEED,
 } from './travelConfig'
 
 const back = new Vector3()
@@ -26,11 +32,29 @@ const desired = new Vector3()
 const lookTarget = new Vector3()
 const ahead = new Vector3()
 
-function followLerp(phase) {
+function followRate(phase, speed) {
   if (phase === 'rotating') return CAMERA_LERP_TURN
-  if (phase === 'traveling') return CAMERA_LERP_TRAVEL
+  if (phase === 'traveling') {
+    const cruise = Math.min(Math.max(speed / TRAVEL_SPEED, 0), 1)
+    return CAMERA_LERP_TRAVEL * (1 - CAMERA_SPEED_LAG * cruise)
+  }
   if (phase === 'arrived' || phase === 'entering') return CAMERA_LERP_SETTLE
   return CAMERA_LERP_IDLE
+}
+
+function lookRate(phase) {
+  if (phase === 'rotating') return CAMERA_LOOK_LERP_TURN
+  if (phase === 'arrived' || phase === 'entering') return CAMERA_LERP_SETTLE
+  return CAMERA_LOOK_LERP
+}
+
+function destinationLookBlend(phase) {
+  if (phase === 'arrived' || phase === 'entering') {
+    return CAMERA_DESTINATION_BLEND_ARRIVE
+  }
+  if (phase === 'traveling') return CAMERA_DESTINATION_BLEND
+  if (phase === 'rotating') return CAMERA_DESTINATION_BLEND_TURN
+  return 0
 }
 
 function CameraRig({ shipRef, targetRef, phaseRef, compact = false }) {
@@ -73,7 +97,9 @@ function CameraRig({ shipRef, targetRef, phaseRef, compact = false }) {
     const ship = shipRef.current
     if (!ship) return
 
+    const dt = Math.min(delta, MAX_FRAME_DELTA)
     const phase = phaseRef.current
+    const speed = ship.userData.travelSpeed ?? 0
     const zoomDistance = distanceRef.current
     const followDistance =
       phase === 'entering' ? zoomDistance * ENTER_CAMERA_PULL : zoomDistance
@@ -92,14 +118,9 @@ function CameraRig({ shipRef, targetRef, phaseRef, compact = false }) {
       .addScaledVector(ahead, CAMERA_LOOK_AHEAD * heightScale)
 
     const target = targetRef.current
-    if (
-      target &&
-      (phase === 'rotating' ||
-        phase === 'traveling' ||
-        phase === 'arrived' ||
-        phase === 'entering')
-    ) {
-      lookTarget.lerp(target.position, CAMERA_DESTINATION_BLEND)
+    const destBlend = destinationLookBlend(phase)
+    if (target && destBlend > 0) {
+      lookTarget.lerp(target.position, destBlend)
     }
 
     if (!snapped.current) {
@@ -107,10 +128,8 @@ function CameraRig({ shipRef, targetRef, phaseRef, compact = false }) {
       lookRef.current.copy(lookTarget)
       snapped.current = true
     } else {
-      const smoothing = 1 - Math.exp(-followLerp(phase) * delta)
-      camera.position.lerp(desired, smoothing)
-      const lookSmoothing = 1 - Math.exp(-CAMERA_LOOK_LERP * delta)
-      lookRef.current.lerp(lookTarget, lookSmoothing)
+      camera.position.lerp(desired, 1 - Math.exp(-followRate(phase, speed) * dt))
+      lookRef.current.lerp(lookTarget, 1 - Math.exp(-lookRate(phase) * dt))
     }
 
     camera.lookAt(lookRef.current)

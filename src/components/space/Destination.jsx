@@ -16,6 +16,7 @@ function Destination({
   label,
   position,
   geometryType,
+  visualScale = 1,
   labelOffset = [0, 1.28, 0],
   hitRadius = DESTINATION_HIT_RADIUS,
   selected,
@@ -73,7 +74,7 @@ function Destination({
         >
           <sphereGeometry args={[hitRadius, 8, 8]} />
         </mesh>
-        <group ref={visualRef}>
+        <group ref={visualRef} scale={visualScale}>
           <Suspense fallback={<VisualFallback />}>
             <DestinationVisual geometryType={geometryType} active={active} />
           </Suspense>

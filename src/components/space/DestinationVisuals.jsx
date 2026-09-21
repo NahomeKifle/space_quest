@@ -36,11 +36,11 @@ function SignalLight({ position, color, rest = 0.28, activeBoost = 0.55, active 
 }
 
 function ProjectsPlanet() {
-  return <FittedGltf url={GLTF_PLANET_PROJECTS} targetSize={2.48} />
+  return <FittedGltf url={GLTF_PLANET_PROJECTS} targetSize={2.68} />
 }
 
 function AboutPlanet() {
-  return <FittedGltf url={GLTF_PLANET_ABOUT} targetSize={1.62} />
+  return <FittedGltf url={GLTF_PLANET_ABOUT} targetSize={1.56} />
 }
 
 function ExperienceStation({ active }) {
@@ -73,7 +73,7 @@ function ExperienceStation({ active }) {
       ))}
       <FittedGltf
         url={GLTF_EXPERIENCE_DOME}
-        targetSize={1.48}
+        targetSize={1.36}
         position={[0, -0.06, 0]}
       />
       <mesh position={[0.52, 0.28, 0.38]} raycast={() => {}}>
@@ -96,7 +96,7 @@ function ArchiveBeacon({ active }) {
   return (
     <group>
       <mesh raycast={() => {}}>
-        <octahedronGeometry args={[0.18, 0]} />
+        <octahedronGeometry args={[0.2, 0]} />
         <meshStandardMaterial
           color="#8e9aa8"
           emissive="#5d6d7c"

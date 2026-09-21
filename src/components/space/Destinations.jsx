@@ -21,6 +21,7 @@ function Destinations({
           label={item.label}
           position={getDestinationPosition(item, compact)}
           geometryType={item.geometryType}
+          visualScale={item.visualScale ?? 1}
           labelOffset={getDestinationLabelOffset(item, compact)}
           hitRadius={item.hitRadius}
           selected={selectedId === item.id}

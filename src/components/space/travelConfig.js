@@ -26,12 +26,18 @@ export const CAMERA_MAX_DISTANCE = 12.2
 export const CAMERA_ZOOM_SPEED = 0.012
 export const CAMERA_HEIGHT = 3.45
 export const CAMERA_LOOK_AHEAD = 5.15
-export const CAMERA_LERP_IDLE = 2.35
-export const CAMERA_LERP_TURN = 1.35
-export const CAMERA_LERP_TRAVEL = 3.15
-export const CAMERA_LERP_SETTLE = 4.4
-export const CAMERA_LOOK_LERP = 3.4
-export const CAMERA_DESTINATION_BLEND = 0.14
+// Follow half-life ≈ ln(2)/rate. Position uses 1 - exp(-rate * dt).
+export const CAMERA_LERP_IDLE = 2.15
+export const CAMERA_LERP_TURN = 1.05
+export const CAMERA_LERP_TRAVEL = 2.45
+export const CAMERA_LERP_SETTLE = 3.55
+export const CAMERA_LOOK_LERP = 2.7
+export const CAMERA_LOOK_LERP_TURN = 1.85
+export const CAMERA_DESTINATION_BLEND = 0.16
+export const CAMERA_DESTINATION_BLEND_TURN = 0.07
+export const CAMERA_DESTINATION_BLEND_ARRIVE = 0.24
+// At cruise speed, follow rate is reduced by this fraction so the camera trails.
+export const CAMERA_SPEED_LAG = 0.3
 export const ENTER_CAMERA_PULL = 0.82
 export const ENTER_TRANSITION_MS = 800
 export const CAMERA_FOV = 42

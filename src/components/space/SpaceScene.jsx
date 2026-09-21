@@ -216,7 +216,7 @@ function SpaceScene({ onEnterDestination }) {
           <aside className={styles.panel} aria-live="polite">
             <p className={styles.panelKicker}>Arrived at</p>
             <h2 className={styles.panelTitle}>{selected.label}</h2>
-            <p className={styles.panelCopy}>The ship holds position nearby.</p>
+            <p className={styles.panelCopy}>Enter to open this section.</p>
             <button type="button" className={styles.travel} onClick={handleEnter}>
               Enter
             </button>

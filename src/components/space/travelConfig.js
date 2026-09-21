@@ -24,6 +24,8 @@ export const CAMERA_MIN_DISTANCE = 4.8
 export const CAMERA_DEFAULT_DISTANCE = 7.4
 export const CAMERA_MAX_DISTANCE = 12.2
 export const CAMERA_ZOOM_SPEED = 0.012
+export const CAMERA_ZOOM_LERP = 9.2
+export const CAMERA_ZOOM_DELTA_CLAMP = 80
 export const CAMERA_HEIGHT = 3.45
 export const CAMERA_LOOK_AHEAD = 5.15
 // Follow half-life ≈ ln(2)/rate. Position uses 1 - exp(-rate * dt).
@@ -43,6 +45,16 @@ export const ENTER_TRANSITION_MS = 800
 export const CAMERA_FOV = 42
 export const CAMERA_FOV_NARROW = 58
 export const CAMERA_NARROW_ASPECT = 0.7
+
+export function zoomWheelDelta(event) {
+  let delta = event.deltaY
+  if (event.deltaMode === 1) delta *= 16
+  else if (event.deltaMode === 2) delta *= 64
+  return Math.min(
+    CAMERA_ZOOM_DELTA_CLAMP,
+    Math.max(-CAMERA_ZOOM_DELTA_CLAMP, delta)
+  )
+}
 
 export function travelEase(t) {
   const x = Math.min(Math.max(t, 0), 1)

@@ -7,18 +7,26 @@ import {
   GLTF_PLANET_PROJECTS,
 } from './gltfAssets'
 
-function emissive(active, rest, selected) {
-  return active ? selected : rest
+function emissive(emphasis, rest, hover, selected) {
+  if (emphasis === 'selected') return selected
+  if (emphasis === 'hover') return hover
+  return rest
 }
 
-function SignalLight({ position, color, rest = 0.28, activeBoost = 0.55, active }) {
+function SignalLight({ position, color, rest = 0.28, activeBoost = 0.55, emphasis }) {
   const materialRef = useRef(null)
 
   useFrame((state) => {
     const material = materialRef.current
     if (!material) return
     const pulse = 0.5 + 0.5 * Math.sin(state.clock.elapsedTime * 2.1)
-    material.emissiveIntensity = rest + pulse * (active ? activeBoost : 0.22)
+    const boost =
+      emphasis === 'selected'
+        ? activeBoost
+        : emphasis === 'hover'
+          ? activeBoost * 0.5
+          : 0.22
+    material.emissiveIntensity = rest + pulse * boost
   })
 
   return (
@@ -43,7 +51,7 @@ function AboutPlanet() {
   return <FittedGltf url={GLTF_PLANET_ABOUT} targetSize={1.56} />
 }
 
-function ExperienceStation({ active }) {
+function ExperienceStation({ emphasis }) {
   return (
     <group>
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.46, 0]} raycast={() => {}}>
@@ -53,7 +61,7 @@ function ExperienceStation({ active }) {
           metalness={0.5}
           roughness={0.42}
           emissive="#2c333c"
-          emissiveIntensity={emissive(active, 0.05, 0.16)}
+          emissiveIntensity={emissive(emphasis, 0.05, 0.1, 0.16)}
         />
       </mesh>
       <mesh position={[0, -0.48, 0]} raycast={() => {}}>
@@ -85,14 +93,14 @@ function ExperienceStation({ active }) {
         <meshStandardMaterial
           color="#c8b889"
           emissive="#c8b889"
-          emissiveIntensity={emissive(active, 0.24, 0.62)}
+          emissiveIntensity={emissive(emphasis, 0.24, 0.4, 0.62)}
         />
       </mesh>
     </group>
   )
 }
 
-function ArchiveBeacon({ active }) {
+function ArchiveBeacon({ emphasis }) {
   return (
     <group>
       <mesh raycast={() => {}}>
@@ -100,7 +108,7 @@ function ArchiveBeacon({ active }) {
         <meshStandardMaterial
           color="#8e9aa8"
           emissive="#5d6d7c"
-          emissiveIntensity={emissive(active, 0.1, 0.28)}
+          emissiveIntensity={emissive(emphasis, 0.1, 0.18, 0.28)}
           metalness={0.46}
           roughness={0.36}
         />
@@ -126,7 +134,7 @@ function ArchiveBeacon({ active }) {
         <meshStandardMaterial
           color="#c5d4e2"
           emissive="#9bb4c6"
-          emissiveIntensity={emissive(active, 0.32, 0.7)}
+          emissiveIntensity={emissive(emphasis, 0.32, 0.48, 0.7)}
           toneMapped={false}
         />
       </mesh>
@@ -134,7 +142,7 @@ function ArchiveBeacon({ active }) {
   )
 }
 
-function CommsBeacon({ active }) {
+function CommsBeacon({ emphasis }) {
   return (
     <group>
       <mesh raycast={() => {}}>
@@ -142,7 +150,7 @@ function CommsBeacon({ active }) {
         <meshStandardMaterial
           color="#5a636c"
           emissive="#3e4850"
-          emissiveIntensity={emissive(active, 0.05, 0.16)}
+          emissiveIntensity={emissive(emphasis, 0.05, 0.1, 0.16)}
           metalness={0.52}
           roughness={0.38}
         />
@@ -162,7 +170,7 @@ function CommsBeacon({ active }) {
       <SignalLight
         position={[0, 0.4, -0.03]}
         color="#8eb8c8"
-        active={active}
+        emphasis={emphasis}
       />
     </group>
   )
@@ -185,9 +193,9 @@ const visuals = {
   ring: CommsBeacon,
 }
 
-function DestinationVisual({ geometryType, active }) {
+function DestinationVisual({ geometryType, emphasis = 'idle' }) {
   const Visual = visuals[geometryType] ?? ArchiveBeacon
-  return <Visual active={active} />
+  return <Visual emphasis={emphasis} />
 }
 
 export default DestinationVisual

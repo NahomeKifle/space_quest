@@ -43,6 +43,7 @@
   padding: 1rem 1.1rem 1.1rem;
   border: 1px solid #222;
   background: rgba(8, 8, 10, 0.9);
+  animation: panelIn 180ms ease;
 }
 
 .panelKicker {
@@ -81,6 +82,7 @@
 
 .travel:hover {
   border-color: #6a6a6a;
+  background: rgba(255, 255, 255, 0.04);
 }
 
 .travel:disabled {
@@ -91,6 +93,21 @@
 .travel:focus-visible {
   outline: 1px solid #9eb8cc;
   outline-offset: 3px;
+}
+
+@keyframes panelIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .panel {
+    animation: none;
+  }
 }
 
 .fade {

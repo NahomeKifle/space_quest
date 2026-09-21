@@ -10,11 +10,21 @@
     0 0 18px rgba(0, 0, 0, 0.8);
   opacity: 0.64;
   user-select: none;
+  transition: opacity 160ms ease, color 160ms ease;
+}
+
+.labelHover {
+  color: #e4e4e4;
+  opacity: 0.82;
 }
 
 .labelActive {
   color: #ececec;
   opacity: 0.95;
+}
+
+.labelDim {
+  opacity: 0.4;
 }
 
 @media (max-width: 640px) {

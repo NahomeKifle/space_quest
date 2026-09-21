@@ -20,10 +20,12 @@ import {
   CAMERA_MIN_DISTANCE,
   CAMERA_NARROW_ASPECT,
   CAMERA_SPEED_LAG,
+  CAMERA_ZOOM_LERP,
   CAMERA_ZOOM_SPEED,
   ENTER_CAMERA_PULL,
   MAX_FRAME_DELTA,
   TRAVEL_SPEED,
+  zoomWheelDelta,
 } from './travelConfig'
 
 const back = new Vector3()
@@ -57,10 +59,15 @@ function destinationLookBlend(phase) {
   return 0
 }
 
+function zoomFrozen(phase) {
+  return phase === 'rotating' || phase === 'traveling' || phase === 'entering'
+}
+
 function CameraRig({ shipRef, targetRef, phaseRef, compact = false }) {
   const { camera, gl, size } = useThree()
   const snapped = useRef(false)
-  const distanceRef = useRef(CAMERA_DEFAULT_DISTANCE)
+  const zoomTargetRef = useRef(CAMERA_DEFAULT_DISTANCE)
+  const zoomDistanceRef = useRef(CAMERA_DEFAULT_DISTANCE)
   const lookRef = useRef(new Vector3())
 
   useEffect(() => {
@@ -75,13 +82,10 @@ function CameraRig({ shipRef, targetRef, phaseRef, compact = false }) {
     const element = gl.domElement
     function onWheel(event) {
       event.preventDefault()
-      const phase = phaseRef.current
-      if (phase === 'rotating' || phase === 'traveling' || phase === 'entering') {
-        return
-      }
+      if (zoomFrozen(phaseRef.current)) return
 
-      const next = distanceRef.current + event.deltaY * CAMERA_ZOOM_SPEED
-      distanceRef.current = Math.min(
+      const next = zoomTargetRef.current + zoomWheelDelta(event) * CAMERA_ZOOM_SPEED
+      zoomTargetRef.current = Math.min(
         CAMERA_MAX_DISTANCE,
         Math.max(CAMERA_MIN_DISTANCE, next)
       )
@@ -100,7 +104,14 @@ function CameraRig({ shipRef, targetRef, phaseRef, compact = false }) {
     const dt = Math.min(delta, MAX_FRAME_DELTA)
     const phase = phaseRef.current
     const speed = ship.userData.travelSpeed ?? 0
-    const zoomDistance = distanceRef.current
+
+    if (!zoomFrozen(phase)) {
+      const zoomStep = 1 - Math.exp(-CAMERA_ZOOM_LERP * dt)
+      zoomDistanceRef.current +=
+        (zoomTargetRef.current - zoomDistanceRef.current) * zoomStep
+    }
+
+    const zoomDistance = zoomDistanceRef.current
     const followDistance =
       phase === 'entering' ? zoomDistance * ENTER_CAMERA_PULL : zoomDistance
     const heightScale = Math.sqrt(followDistance / CAMERA_DEFAULT_DISTANCE)
